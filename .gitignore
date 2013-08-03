@@ -1,0 +1,5 @@
+vssver2.scc
+*.suo
+*.user
+obj/
+debug/
