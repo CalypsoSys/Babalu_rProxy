@@ -1,0 +1,100 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Babalu.TestService</name>
+    </assembly>
+    <members>
+        <member name="T:Babalu.rProxy.TestService">
+            <summary>
+            main service for Babalu rProxy service
+            </summary>
+            <summary>
+            main service for Babalu rProxy service
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.TestService.components">
+            <summary> 
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.TestService.Dispose(System.Boolean)">
+            <summary>
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Babalu.rProxy.TestService.InitializeComponent">
+            <summary> 
+            Required method for Designer support - do not modify 
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.TestService.#ctor">
+            <summary>
+            inititialize the service
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.TestService.OnStart(System.String[])">
+            <summary>
+            handle the service start action
+            Start the tcp listeners and the config watcher
+            </summary>
+            <param name="args"></param>
+        </member>
+        <member name="M:Babalu.rProxy.TestService.OnStop">
+            <summary>
+            handle the service stop action
+            stop the tcp listeners
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.Program">
+            <summary>
+            main class of the Babalu rProxy service
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.Program.Main">
+            <summary>
+            The main entry point for the application.
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.ProjectInstaller">
+            <summary>
+            basic installer class for service so installutil for a install program can install
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.ProjectInstaller.components">
+            <summary>
+            Required designer variable.
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProjectInstaller.Dispose(System.Boolean)">
+            <summary> 
+            Clean up any resources being used.
+            </summary>
+            <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        </member>
+        <member name="M:Babalu.rProxy.ProjectInstaller.InitializeComponent">
+            <summary>
+            Required method for Designer support - do not modify
+            the contents of this method with the code editor.
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProjectInstaller.#ctor">
+            <summary>
+            default constructor for service installer
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProjectInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            install any application specific items
+            </summary>
+            <param name="stateSaver"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ProjectInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            uninstall any application specific items
+            </summary>
+            <param name="savedState"></param>
+        </member>
+    </members>
+</doc>

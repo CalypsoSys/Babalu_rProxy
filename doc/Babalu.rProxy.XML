@@ -1,0 +1,1220 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Babalu.rProxy</name>
+    </assembly>
+    <members>
+        <member name="T:Babalu.rProxy.ProxyListener">
+            <summary>
+            base class that handle tcp http connections
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyListener.StartAll">
+            <summary>
+            try to start all the proxy listners configured
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyListener.Start(Babalu.rProxy.BabaluProxiedServerConfiguration)">
+            <summary>
+            start any listeners that are configured
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyListener.StopAll">
+            <summary>
+            stop all started listeners
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyListener.StartWork(System.Object)">
+            <summary>
+            main processing loop of the tcp listener, wait for connections and hand off to thread for processing
+            </summary>
+            <param name="stateInfo">the thread this method is running on</param>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyListener.StopWork">
+            <summary>
+            mark flag to stop listener, stop the listener and then wait for thread to terminate
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyListener.HandleAsyncConnection(System.Object)">
+            <summary>
+             thread method to handle http request
+            </summary>
+            <param name="stateInfo">the TcpClient from the listener</param>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyListener.GetProxySslClientStream(System.Net.Sockets.NetworkStream,System.String)">
+            <summary>
+            authenticate and return a SSL stream from a proxied server 
+            </summary>
+            <param name="proxyClientStream">the raw socket stream from the server</param>
+            <param name="proxiedServer"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Babalu.rProxy.ILogger">
+            <summary>
+            interface to the logging instance
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ILogger.Start">
+            <summary>
+            start the logger
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ILogger.Stop">
+            <summary>
+            stop the logger
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ILogger.LogRequest(System.String,Babalu.rProxy.LogRequest)">
+            <summary>
+            log this request
+            </summary>
+            <param name="proxyIP"></param>
+            <param name="request"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ILogger.LogException(System.Exception,System.String,System.Object[])">
+            <summary>
+            log this exception
+            </summary>
+            <param name="excp"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ILogger.LogInformation(System.String,System.Object[])">
+            <summary>
+            log informational items
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ILogger.LogDebug(System.String,System.Object[])">
+            <summary>
+            log debug items
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.Babalu#rProxy#ILogger#Start">
+            <summary>
+            initialize commen logging variables and start log thread
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.Babalu#rProxy#ILogger#Stop">
+            <summary>
+            stop the log thread
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.LogWriter">
+            <summary>
+            thread method to wait "n" milliseconds and then process logs
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.WriteLog(Babalu.rProxy.LogQueue,System.IO.TextWriter)">
+            <summary>
+            write data from the queue to the stream
+            </summary>
+            <param name="logQueue"></param>
+            <param name="writer"></param>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.Babalu#rProxy#ILogger#LogRequest(System.String,Babalu.rProxy.LogRequest)">
+            <summary>
+            IIS like logging factility
+            </summary>
+            <param name="proxyIP">The IP of this proxy server</param>
+            <param name="request">request specific information</param>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.LogRequestStream(System.IO.TextWriter,System.Boolean,System.DateTime@)">
+            <summary>
+            initialize request/IIS log file, if the day has changed create a new log file (just like IIS), and output standard header information
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.Babalu#rProxy#ILogger#LogException(System.Exception,System.String,System.Object[])">
+            <summary>
+            log all unexpected exception encountered
+            </summary>
+            <param name="excp">the exception to log</param>
+            <param name="message">developer specified message</param>
+            <param name="args">arguments to format in the message parameter</param>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.Babalu#rProxy#ILogger#LogInformation(System.String,System.Object[])">
+            <summary>
+            log informational items to the Babalu_rProxy_INFO.log log
+            </summary>
+            <param name="message">developer specified message</param>
+            <param name="args">arguments to format in the message parameter</param>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.Babalu#rProxy#ILogger#LogDebug(System.String,System.Object[])">
+            <summary>
+            log debugging items to the Babalu_rProxy_DEBUG.log log
+            </summary>
+            <param name="message">developer specified message</param>
+            <param name="args">arguments to format in the message parameter</param>
+        </member>
+        <member name="M:Babalu.rProxy.Logger.LogGenetic(System.Boolean,Babalu.rProxy.LogQueue,System.String,System.Object[])">
+            <summary>
+            generic log writer to handle both information and debug logging
+            </summary>
+            <param name="debug">flag to determine log type</param>
+            <param name="logQueue">the log queue to add to</param>
+            <param name="message">developer specified message</param>
+            <param name="args">arguments to format in the message parameter</param>
+        </member>
+        <member name="T:Babalu.rProxy.CompressedStream">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.CompressedStream.IsCompressed(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="contentEncoding"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.CompressedStream.DeCompressContent(System.Byte[],System.String,System.Byte[],System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="content"></param>
+            <param name="contentEncoding"></param>
+            <param name="rawRead"></param>
+            <param name="bufferSize"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.CompressedStream.#ctor(System.String,System.IO.Stream,System.IO.Compression.CompressionMode)">
+            <summary>
+            
+            </summary>
+            <param name="contentEncoding"></param>
+            <param name="stream"></param>
+            <param name="mode"></param>
+        </member>
+        <member name="M:Babalu.rProxy.CompressedStream.Read(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="array"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.CompressedStream.Write(System.Byte[],System.Int32,System.Int32)">
+            <summary>
+            
+            </summary>
+            <param name="array"></param>
+            <param name="offset"></param>
+            <param name="count"></param>
+        </member>
+        <member name="M:Babalu.rProxy.CompressedStream.Flush">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.CompressedStream.Dispose">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.LogFactory">
+            <summary>
+            common static logger class
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.LogFactory.Initialize(Babalu.rProxy.ILogger)">
+            <summary>
+            initialize the logger of the user of this assembly
+            </summary>
+            <param name="logger"></param>
+        </member>
+        <member name="M:Babalu.rProxy.LogFactory.Stop">
+            <summary>
+            stop the logger
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.LogFactory.LogRequest(System.String,Babalu.rProxy.LogRequest)">
+            <summary>
+            log this request
+            </summary>
+            <param name="proxyIP"></param>
+            <param name="request"></param>
+        </member>
+        <member name="M:Babalu.rProxy.LogFactory.LogException(System.Exception,System.String,System.Object[])">
+            <summary>
+            log this exception
+            </summary>
+            <param name="excp"></param>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Babalu.rProxy.LogFactory.LogInformation(System.String,System.Object[])">
+            <summary>
+            log informational items
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Babalu.rProxy.LogFactory.LogDebug(System.String,System.Object[])">
+            <summary>
+            log debug items
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="T:Babalu.rProxy.IBabaluMessage">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.SupportsGzip">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.ContentEncoding">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.ContentType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.Content">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.RawRead">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.BufferSize">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.BasicAuthorizationToken">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluMessage.UserQuery">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluConfiguration">
+            <summary>
+            Babalu server configuration and Proxied server settings
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.BabaluServerConfiguration">
+            <summary>
+            the Babalu servers configuration
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.ProxiedServers">
+            <summary>
+            the Babalu Proxied servers
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.HeaderPositions">
+            <summary>
+            class to track positions of various items in a HTTP header
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluWorkerThread">
+            <summary>
+            abstract class for common worker thread funcitonality
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluWorkerThread.DoWork">
+            <summary>
+            the work to do in this thread
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluWorkerThread.Cleanup">
+            <summary>
+            when thread is done, cleanup anything
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluWorkerThread.Start">
+            <summary>
+            start up the thread
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluWorkerThread.Stop">
+            <summary>
+            stop the thread
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluWorkerThread.Worker">
+            <summary>
+            do the actual work on a timed basis
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluWorkerThread.DefaultWait">
+            <summary>
+            the amount of time in mili-seconds to wait between operations
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluWorkerThread.ThreadName">
+            <summary>
+            the name of this thread
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluProxiedServerConfiguration">
+            <summary>
+            Babalu rProxy set configuration Proxied server settings
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ProxyIP">
+            <summary>
+            the local network address that the tcp listener should use to listen on
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ProxyPorts">
+            <summary>
+            dictionary of ports and cert names supported
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.SupportGZip">
+            <summary>
+            does the service allow HTTP content to be compressed with gzip (content type)
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.CacheContent">
+            <summary>
+            does the service allow for the caching of server content so we do not have to call the proxied server on all requests
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.MaxQueueLength">
+            <summary>
+            the The maximum requested length of the pending connections queue.
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ProxiedServers">
+            <summary>
+            the The maximum requested length of the pending connections queue.
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ServerType">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.PerformanceCounterInstaller">
+            <summary>
+            Installer class to create/remove performance counters
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.PerformanceCounterInstaller.#ctor">
+            <summary>
+            default constructor for service installer
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.PerformanceCounterInstaller.Install(System.Collections.IDictionary)">
+            <summary>
+            install any application specific items
+            </summary>
+            <param name="stateSaver"></param>
+        </member>
+        <member name="M:Babalu.rProxy.PerformanceCounterInstaller.Uninstall(System.Collections.IDictionary)">
+            <summary>
+            uninstall any application specific items
+            </summary>
+            <param name="savedState"></param>
+        </member>
+        <member name="M:Babalu.rProxy.PerformanceCounterInstaller.SetupPerfmonCounters(System.Configuration.Install.InstallContext)">
+            <summary>
+            setup the Babalu perfmon counters
+            </summary>
+            <param name="context"></param>
+        </member>
+        <member name="T:Babalu.rProxy.HttpProxyListener">
+            <summary>
+            specific class to handle HTTP requests
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.HttpProxyListener.GetRealClientStream(System.Net.Sockets.NetworkStream)">
+            <summary>
+            just return the same stream as not additional processing needs to take place
+            </summary>
+            <param name="realClientStream">the raw stream from the client</param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.HttpProxyListener.GetProxyClientStream(System.Net.Sockets.NetworkStream,System.String,System.Boolean)">
+            <summary>
+            return either a HTTP or HTTPS stream based on the proxied server's configuration
+            </summary>
+            <param name="proxyClientStream">the client to the proxied server</param>
+            <param name="proxiedServer"></param>
+            <param name="ssl"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Babalu.rProxy.ProxyRequestMessage">
+            <summary>
+            class to handle HTTP request message
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.ProxyMessage">
+            <summary>
+            base class to handle HTTP/HTTPS header/content processing for the proxy
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyMessage.#ctor(Babalu.rProxy.IExternalMessageHandler,System.Boolean,System.IO.Stream,Babalu.rProxy.LogRequest,System.Boolean)">
+            <summary>
+            socket input from client or server to process
+            </summary>
+            <param name="messageHandler">external message handler</param>
+            <param name="supportsGZip">are we supporting GZip compression</param>
+            <param name="input">the client for server HTTP stream</param>
+            <param name="log">request log structure</param>
+            <param name="checkPreHttp">is this the request and a pre http 1.1 request</param>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyMessage.LogHeaderContent">
+            <summary>
+            log the header and content 
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyMessage.Tranform(System.String,System.String)">
+            <summary>
+            tranform a request/response from one server to a request/response to another server
+            </summary>
+            <param name="match"></param>
+            <param name="replace"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyMessage.Replace(System.Collections.Generic.List{System.Byte},System.String,System.String)">
+            <summary>
+            replace value in a raw data
+            </summary>
+            <param name="input">raw data</param>
+            <param name="match">search string</param>
+            <param name="replace">replace string</param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyMessage.ParseHeader">
+            <summary>
+            look for specific header values and store their index in the header data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyMessage.ParseHeaderValue(System.Int32,System.Char)">
+            <summary>
+            read a header value starting at the defined index until we reach the first new-line character
+            </summary>
+            <param name="index"></param>
+            <param name="alternate"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyMessage.FirstHeaderLine">
+            <summary>
+            return the first line of the HTPP header
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyMessage.Host">
+            <summary>
+            get the header "Host" 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyMessage.Authorization">
+            <summary>
+            get the header "Authorization" 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyMessage.UserAgent">
+            <summary>
+            get the header "User-Agent" 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyMessage.CacheAge">
+            <summary>
+            process the header "Cache-Control" information, -1 is forever, 0 is never
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyMessage.HasData">
+            <summary>
+            have we read any data from this socket stream
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyMessage.IsContentBinary">
+            <summary>
+            look at the content types to see if it is binary data, less processing
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyRequestMessage.#ctor(Babalu.rProxy.IExternalMessageHandler,System.Boolean,System.IO.Stream,Babalu.rProxy.LogRequest)">
+            <summary>
+            contructor processes the HTTP request data
+            </summary>
+            <param name="messageHandler">external message handler</param>
+            <param name="supportsGZip">are we supporting GZip compression</param>
+            <param name="input"></param>
+            <param name="log"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyRequestMessage.SpecialReplace(System.Collections.Generic.List{System.Byte},System.Int32,System.Collections.Generic.List{System.Byte})">
+            <summary>
+            special processing for gzip and ???, since ??? is ???? do not use gzip
+            </summary>
+            <param name="input"></param>
+            <param name="index"></param>
+            <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyRequestMessage.UserName">
+            <summary>
+            get the basic authentication username if provided
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyRequestMessage.RequestUrl">
+            <summary>
+            return the entire first line of the header
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyRequestMessage.BufferSize">
+            <summary>
+            this is the amount of data we want to read at a time
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.LogQueue">
+            <summary>
+            class to saftely process temp log queue for performance
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.LogQueue.Enqueue">
+            <summary>
+            add a empty string
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.LogQueue.Enqueue(System.String,System.Object[])">
+            <summary>
+            add a item to the queue
+            </summary>
+            <param name="message"></param>
+            <param name="args"></param>
+        </member>
+        <member name="M:Babalu.rProxy.LogQueue.Dequeue">
+            <summary>
+            return all the items in the queue and clear the queue
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.LogQueue.Clear">
+            <summary>
+            clear all log messages
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.LogQueue.Copy">
+            <summary>
+            copy all log messages without clearing queue
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.IExternalMessageHandler">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.OverrideResponseFromRequest(Babalu.rProxy.LogRequest,System.String,System.String)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.OverrideResponseFromResponse(Babalu.rProxy.IBabaluMessage,System.String)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.ProcessHeaderLineRequest(Babalu.rProxy.LogRequest)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.ProcessHeaderLineResponse(Babalu.rProxy.LogRequest)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.ProcessRequest(Babalu.rProxy.IBabaluMessage,System.String)">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.GetContentForLogging(Babalu.rProxy.IBabaluMessage,System.Byte[]@)">
+            <summary>
+            
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.ProcessResponseContent(Babalu.rProxy.IBabaluMessage,System.Byte[])">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.ProcessUserNameAndPassword(System.String)">
+            <summary>
+            
+            </summary>
+            <param name="fullUnPw"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.ReplaceOverride(Babalu.rProxy.IBabaluMessage,System.Collections.Generic.List{System.Byte},System.Collections.Generic.List{System.Byte},System.Int32@)">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="output"></param>
+            <param name="input"></param>
+            <param name="index"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.IExternalMessageHandler.ReplaceOutput(Babalu.rProxy.IBabaluMessage,System.Collections.Generic.List{System.Byte})">
+            <summary>
+            
+            </summary>
+            <param name="message"></param>
+            <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Babalu.rProxy.IExternalMessageHandler.ResponseCode">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IExternalMessageHandler.ResponseBuffer">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluCounters">
+            <summary>
+            perfmon Babalu counter information
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.Initialize">
+            <summary>
+            Initialize the performance counter objects and thread for the Babalu rProxy
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.Refresh">
+            <summary>
+            check to see if we shoudl start or stop logging of performance counters
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.IncrementPendingThread">
+            <summary>
+            increment request counter
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.DecrementPendingThread">
+            <summary>
+            Decrement request counter
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.IncrementAllRequest">
+            <summary>
+            increment request counter
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.DecrementAllRequest(System.Nullable{System.Guid})">
+            <summary>
+            Decrement request counter
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.IncrementException">
+            <summary>
+            increment the exception count
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.GetPerfmonStatistics(System.String[])">
+            <summary>
+            get the perfmon stats for the MAC through WPF, not recommeneded but if all else fails...
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.Terminate">
+            <summary>
+             terminate the population of performance counters
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.#ctor">
+            <summary>
+            initialize the performance counters
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.DoWork">
+            <summary>
+            thread to run the population of performance counters 
+            upate every _populateInterval seconds
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.Cleanup">
+            <summary>
+             cleanup managed objects
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.SetCounters">
+            <summary>
+            initialize the performance counters
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.IncrementPendingThreads">
+            <summary>
+            increment the pending thread count
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.DecrementPendingThreads">
+            <summary>
+            decrement the pending thread count
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.IncrementAllRequests(System.Guid)">
+            <summary>
+            increment the gate way call based on the activity id
+            </summary>
+            <param name="guid"></param>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.DecrementAllRequests(System.Guid)">
+            <summary>
+            decrement the gate way call based on the activity id
+            </summary>
+            <param name="guid"></param>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.IncrementExceptions">
+            <summary>
+            increment the gate way exception count
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.IncrementCallTime(System.Guid,System.Collections.Generic.Dictionary{System.Guid,System.Int64})">
+            <summary>
+            add this guid to the list of outstanding requests and mark it's start time
+            </summary>
+            <param name="guid"></param>
+            <param name="ticks"></param>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.DecrementCallTime(System.Guid,System.Collections.Generic.Dictionary{System.Guid,System.Int64})">
+            <summary>
+            add this guid to the list of outstanding requests
+            </summary>
+            <param name="guid"></param>
+            <param name="ticks"></param>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounters.GetTotalCallTime(System.Collections.Generic.Dictionary{System.Guid,System.Int64})">
+            <summary>
+            get the total amount of call time in all active requests
+            </summary>
+            <param name="ticks"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluCounters.Instance">
+            <summary>
+            get the currently configured Babalu counter instance
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.RequestCache">
+            <summary>
+            class to handle the management of the proxied services static responses (image, js, css, etc.)
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.RequestCache.AddCache(System.String,System.String,System.Byte[],System.Int32)">
+            <summary>
+            add a item to the cache
+            </summary>
+            <param name="hostKey"></param>
+            <param name="urlKey">the http request (first line of the request header) as a key to the cache</param>
+            <param name="response">the data returned from the proxied server in the response (header and content)</param>
+            <param name="seconds">the number of seconds that this item is considered fresh (-1 for forever)</param>
+        </member>
+        <member name="M:Babalu.rProxy.RequestCache.GetCache(System.String,System.String)">
+            <summary>
+            see if a http request is in the server cache
+            </summary>
+            <param name="hostKey"></param>
+            <param name="urlKey">the http request (first line of the request header) as a key to the cache</param>
+            <returns>null if no cache hit else the cached response header and content</returns>
+        </member>
+        <member name="T:Babalu.rProxy.ProxyResponseMessage">
+            <summary>
+            class to handle the HTTP response message
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyResponseMessage.#ctor(Babalu.rProxy.IExternalMessageHandler,System.Boolean,System.IO.Stream,Babalu.rProxy.LogRequest)">
+            <summary>
+            contructor processes the HTTP response data
+            </summary>
+            <param name="messageHandler">external message handler</param>
+            <param name="supportsGZip">are we supporting GZip compression</param>
+            <param name="input"></param>
+            <param name="log"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyResponseMessage.ProcessCacheItem(Babalu.rProxy.ProxyRequestMessage,System.Byte[])">
+            <summary>
+            put the request into the cache if possible
+            </summary>
+            <param name="comms"></param>
+            <param name="buffer"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ProxyResponseMessage.SpecialReplace(System.Collections.Generic.List{System.Byte},System.Int32,System.Collections.Generic.List{System.Byte})">
+            <summary>
+            not special processing for request header data
+            </summary>
+            <param name="input"></param>
+            <param name="index"></param>
+            <param name="output"></param>
+            <returns></returns>
+        </member>
+        <member name="P:Babalu.rProxy.ProxyResponseMessage.BufferSize">
+            <summary>
+            this is the amount of data we want to read at a time
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.ExtensionConfig">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.IBabaluConfig">
+            <summary>
+            interface to the babalu configuration 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluConfig.ExternalData">
+            <summary>
+            get/set the external config data
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Babalu.rProxy.IBabaluConfig.BypassProcessing">
+            <summary>
+            bypass processing?
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.IBabaluExtension">
+            <summary>
+            interface from a external extension
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.IBabaluExtension.Initialize(Babalu.rProxy.IBabaluConfig)">
+            <summary>
+            initialize this external library
+            </summary>
+            <param name="config"></param>
+        </member>
+        <member name="M:Babalu.rProxy.IBabaluExtension.Terminate">
+            <summary>
+            terminate this external library
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.IBabaluExtension.ProcessWcfMessage(System.Guid,System.String)">
+            <summary>
+            process this WCF message
+            </summary>
+            <param name="message"></param>
+            <param name="data"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.IBabaluExtension.MessageHandler(System.String)">
+            <summary>
+            process the request
+            </summary>
+            <returns>returns false if no other processing is required</returns>
+        </member>
+        <member name="M:Babalu.rProxy.ExtensionConfig.StartBabalu(Babalu.rProxy.IBabaluExtension)">
+            <summary>
+            
+            </summary>
+            <param name="extension"></param>
+        </member>
+        <member name="M:Babalu.rProxy.ExtensionConfig.StopBabalu">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ExtensionConfig.Config">
+            <summary>
+            get config info
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.ExtensionConfig.BabaluExtension">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluServerConfiguration">
+            <summary>
+            Babalu rProxy set configuration settings
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogsLocation">
+            <summary>
+             Where to log 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogRequests">
+            <summary>
+             does the service log all requests (IIS like log) 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogErrors">
+            <summary>
+            does the service log unexpected exceptions/errors
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogInformation">
+            <summary>
+            does the service log informational items
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogDebug">
+            <summary>
+            does the service log developer/debugging information
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.EnableEventLog">
+            <summary>
+            does the service log errors to the event log
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.EnablePerfmon">
+            <summary>
+            does the service log perfmon counter
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.BypassProcessing">
+            <summary>
+             Overrided all rule processing
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluServerConfiguration.ExternalData">
+            <summary>
+            a string extensions can set
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluCounterDescriptions">
+            <summary>
+            Babalu performance counter descriptions
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.BabaluCounterDescriptions.CurrentRequests">
+            <summary>
+            all requests
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.BabaluCounterDescriptions.TotalCallTime">
+            <summary>
+            total call time
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.BabaluCounterDescriptions.ExceptionsPerMinute">
+            <summary>
+            exceptions per minute
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.BabaluCounterDescriptions.PendingThreadRequest">
+            <summary>
+            pending thread requests
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.BabaluCounterDescriptions.RequestsPerSecond">
+            <summary>
+            requests per second
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.BabaluCounterDescriptions.CounterCategory">
+            <summary>
+            counter category name
+            </summary>
+        </member>
+        <member name="F:Babalu.rProxy.BabaluCounterDescriptions.CategoryDescription">
+            <summary>
+            counter category description
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluCounterDescriptions.InstallCounters">
+            <summary>
+            install thge perfmon counters
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.LogRequest">
+            <summary>
+            class to gather request specific information to be logged into the IIS Like log
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.LogRequest.ToString">
+            <summary>
+            dump contents of class to string for diagnosict purposes
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.CsMethod">
+            <summary>
+            the https method
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.CsUriStem">
+            <summary>
+            the http stem uri
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.CsUriQuery">
+            <summary>
+            the http url query string
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.ServerPort">
+            <summary>
+            the http server port
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.CsUsername">
+            <summary>
+            the http user name of this request
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.ClientIp">
+            <summary>
+            the http clients IP address
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.CsVersion">
+            <summary>
+            the http client version #
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.CsUserAgent">
+            <summary>
+            the http client user agent used
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.ScStatus">
+            <summary>
+            the http server status for this request
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.ScSubstatus">
+            <summary>
+            the http server sub-status for this request
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.ExternalInfo">
+            <summary>
+            the device type that this request if from
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.LogRequest.BabaluStatus">
+            <summary>
+            the Babalu blocking status for this call
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.HttpsProxyListener">
+            <summary>
+            specific class to handle HTTPS requests
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.HttpsProxyListener.#ctor(Babalu.rProxy.BabaluProxiedServerConfiguration,System.Int32,System.String)">
+            <summary>
+            load the certicicate defined in the configuration file
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.HttpsProxyListener.GetServerCert(System.String)">
+            <summary>
+            Joes samples (so I remmeber where they are)
+            "jsan17708317" 
+            C:\Users\joe.schmitt\Desktop\Certs\JoeRootCertTest.cer
+            </summary>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.HttpsProxyListener.GetRealClientStream(System.Net.Sockets.NetworkStream)">
+            <summary>
+            authenticate and return a SSL stream for client processing
+            </summary>
+            <param name="realClientStream">the raw stream from the client</param>
+            <returns>a SSL stream</returns>
+        </member>
+        <member name="M:Babalu.rProxy.HttpsProxyListener.GetProxyClientStream(System.Net.Sockets.NetworkStream,System.String,System.Boolean)">
+            <summary>
+            return either a HTTP or HTTPS stream based on the proxied server's configuration
+            </summary>
+            <param name="proxyClientStream">the client to the proxied server</param>
+            <param name="proxiedServer"></param>
+            <param name="ssl"></param>
+            <returns></returns>
+        </member>
+        <member name="T:Babalu.rProxy.Utility">
+            <summary>
+            
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.Utility.SafeDispose(System.IDisposable)">
+            <summary>
+            
+            </summary>
+            <param name="dispose"></param>
+        </member>
+        <member name="M:Babalu.rProxy.Utility.Match(System.Collections.Generic.List{System.Byte},System.Int32,System.String)">
+            <summary>
+            look for a match in the raw data
+            </summary>
+            <param name="input">the data to interogate</param>
+            <param name="index">the index to start the search</param>
+            <param name="match">what to match on</param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.Utility.DecodeFrom64(System.String)">
+            <summary>
+            decode base 64 string
+            </summary>
+            <param name="encodedData"></param>
+            <returns></returns>
+        </member>
+        <member name="M:Babalu.rProxy.Utility.WcfDeserialize(System.Type,System.String)">
+            <summary>
+            Used to de-serialize an wcf object from xml string format.
+            </summary>
+            <param name="objectType">the type of object to deserialize</param>
+            <param name="serializedObject">the xml string version of the object you want to deserialize.</param>
+            <returns>the object you deserialized.</returns>
+        </member>
+        <member name="M:Babalu.rProxy.Utility.WcfSerialize(System.Object)">
+            <summary>
+            Used to serialize an object into a wcf xml format.
+            </summary>
+            <param name="objectToSerialize">the object you want to serialize</param>
+            <returns>a xml string.</returns>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluConfigurationFactory">
+            <summary>
+            manager configuration all file access
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluConfigurationFactory.TestCertificate(System.String)">
+            <summary>
+            check to see if the cert exists
+            </summary>
+            <param name="certificate"></param>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluConfigurationFactory.StartConfigWatcher">
+            <summary>
+            start watching the applications configuation file
+            </summary>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluConfigurationFactory.OnChange(System.Object,System.IO.FileSystemEventArgs)">
+            <summary>
+            when a change occurs to the configuration file, update the config section and reload types
+            </summary>
+            <param name="source"></param>
+            <param name="e"></param>
+        </member>
+        <member name="M:Babalu.rProxy.BabaluConfigurationFactory.LoadLogsLocation">
+            <summary>
+            get the location to write log files
+            </summary>
+        </member>
+    </members>
+</doc>
