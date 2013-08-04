@@ -20,7 +20,7 @@ namespace Babalu.rProxy
         /// <summary>
         /// load the certicicate defined in the configuration file
         /// </summary>
-        public HttpsProxyListener(BabaluProxiedServerConfiguration proxiedServer,int port, string cert)
+        public HttpsProxyListener(BabaluProxiedServer proxiedServer,int port, string cert)
             : base(proxiedServer, port)
         {
             _cert = GetServerCert(cert);

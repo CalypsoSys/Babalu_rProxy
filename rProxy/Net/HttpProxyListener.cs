@@ -13,7 +13,7 @@ namespace Babalu.rProxy
     /// </summary>
     internal class HttpProxyListener : ProxyListener
     {
-        public HttpProxyListener(BabaluProxiedServerConfiguration proxiedServer, int overridePort)
+        public HttpProxyListener(BabaluProxiedServer proxiedServer, int overridePort)
             : base(proxiedServer, overridePort)
         {
         }

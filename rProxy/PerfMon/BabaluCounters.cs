@@ -38,7 +38,7 @@ namespace Babalu.rProxy
             try
             {
                 LogFactory.LogInformation("Babalu Counters initializing");
-                if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon)
+                if (BabaluConfigurationFactory.Instance.EnablePerfmon)
                 {
                     if (_instance == null)
                     {
@@ -65,7 +65,7 @@ namespace Babalu.rProxy
         /// </summary>
         public static void Refresh()
         {
-            if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon)
+            if (BabaluConfigurationFactory.Instance.EnablePerfmon)
                 BabaluCounters.Initialize();
             else
                 BabaluCounters.Terminate();
@@ -91,7 +91,7 @@ namespace Babalu.rProxy
         {
             try
             {
-                if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon)
+                if (BabaluConfigurationFactory.Instance.EnablePerfmon)
                     Instance.IncrementPendingThreads();
             }
             catch (Exception excp)
@@ -107,7 +107,7 @@ namespace Babalu.rProxy
         {
             try
             {
-                if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon)
+                if (BabaluConfigurationFactory.Instance.EnablePerfmon)
                     Instance.DecrementPendingThreads();
             }
             catch (Exception excp)
@@ -124,7 +124,7 @@ namespace Babalu.rProxy
         {
             try
             {
-                if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon) 
+                if (BabaluConfigurationFactory.Instance.EnablePerfmon) 
                 {
                     Guid activity = Guid.NewGuid();
                     Instance.IncrementAllRequests(activity);
@@ -146,7 +146,7 @@ namespace Babalu.rProxy
         {
             try
             {
-                if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon && guid.HasValue)
+                if (BabaluConfigurationFactory.Instance.EnablePerfmon && guid.HasValue)
                     Instance.DecrementAllRequests(guid.Value);
             }
             catch (Exception excp)
@@ -162,7 +162,7 @@ namespace Babalu.rProxy
         {
             try
             {
-                if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon)
+                if (BabaluConfigurationFactory.Instance.EnablePerfmon)
                     Instance.IncrementExceptions();
             }
             catch (Exception excp)
@@ -177,7 +177,7 @@ namespace Babalu.rProxy
         /// <returns></returns>
         public static long[] GetPerfmonStatistics(string[] stats)
         {
-            if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon)
+            if (BabaluConfigurationFactory.Instance.EnablePerfmon)
                 return Instance.GetPerfmonStats(stats);
             else
                 return null;
@@ -233,7 +233,7 @@ namespace Babalu.rProxy
         /// </summary>
         protected override void DoWork()
         {
-            if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnablePerfmon)
+            if (BabaluConfigurationFactory.Instance.EnablePerfmon)
             {
                 _totalCallTimeCounter.RawValue = GetTotalCallTime(_callTimes);
                 if (_lastExceptionsPerMinute >= 60)

@@ -66,17 +66,17 @@ namespace Babalu.rProxy
         {
             get
             {
-                return BabaluConfigurationFactory.Instance.BabaluServerConfiguration.ExternalData;
+                return BabaluConfigurationFactory.Instance.ExternalData;
             }
             set
             {
-                BabaluConfigurationFactory.Instance.BabaluServerConfiguration.ExternalData = value;
+                BabaluConfigurationFactory.Instance.ExternalData = value;
             }
         }
 
         bool IBabaluConfig.BypassProcessing
         {
-            get { return BabaluConfigurationFactory.Instance.BabaluServerConfiguration.BypassProcessing; }
+            get { return BabaluConfigurationFactory.Instance.BypassProcessing; }
         }
 
         void IBabaluExtension.Initialize(IBabaluConfig config)

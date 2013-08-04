@@ -88,8 +88,7 @@ namespace Babalu.rProxy
 
         private static BabaluConfiguration LoadConfiguration()
         {
-            BabaluConfiguration configuration = new BabaluConfiguration();
-            configuration.BabaluServerConfiguration = new BabaluServerConfiguration()
+            BabaluConfiguration configuration = new BabaluConfiguration()
             {
                 LogsLocation = LoadLogsLocation(),
                 LogRequests = BoolConfigKey(_logRequestsKey, null, true),
@@ -101,11 +100,11 @@ namespace Babalu.rProxy
                 BypassProcessing = BoolConfigKey(_bypassProcessingKey, null, false)
             };
 
-            configuration.ProxiedServers = new List<BabaluProxiedServerConfiguration>();
+            configuration.ProxiedServers = new List<BabaluProxiedServer>();
             string proxyIP;
             for (int i = 1; (proxyIP = StringConfigKey(_proxyIPKey, i, null)) != null; i++)
             {
-                configuration.ProxiedServers.Add(new BabaluProxiedServerConfiguration()
+                configuration.ProxiedServers.Add(new BabaluProxiedServer()
                         {
                             ProxyIP = proxyIP,
                             ProxyPorts = LoadProxyPorts(i),

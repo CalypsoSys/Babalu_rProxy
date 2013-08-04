@@ -10,7 +10,7 @@ namespace Babalu.rProxy
     /// Babalu rProxy set configuration Proxied server settings
     /// </summary>
     [DataContract]
-    public class BabaluProxiedServerConfiguration
+    public class BabaluProxiedServer
     {
         /// <summary>
         /// the local network address that the tcp listener should use to listen on

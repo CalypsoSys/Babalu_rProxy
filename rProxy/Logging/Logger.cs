@@ -101,10 +101,10 @@ namespace Babalu.rProxy
                 while (_logEvent.WaitOne(_defaultWait) == false)
                 {
                     bool create = false;
-                    if (_lastLogDirectory != BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogsLocation)
+                    if (_lastLogDirectory != BabaluConfigurationFactory.Instance.LogsLocation)
                     {
                         create = true;
-                        _lastLogDirectory = BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogsLocation;
+                        _lastLogDirectory = BabaluConfigurationFactory.Instance.LogsLocation;
                         try
                         {
                             Directory.CreateDirectory(_lastLogDirectory);
@@ -114,7 +114,7 @@ namespace Babalu.rProxy
                         }
                     }
 
-                    if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogRequests)
+                    if (BabaluConfigurationFactory.Instance.LogRequests)
                     {
                         logRequestStream = LogRequestStream(logRequestStream, create, ref _lastRequestDate);
                         WriteLog(_resultsLogQueue, logRequestStream );
@@ -124,7 +124,7 @@ namespace Babalu.rProxy
                     // *********************************************************************************************
                     // WriteEvents must be called before WriteLog call with _exceptionLogQueue as WriteLog will clear the queue
                     WriteEvents();
-                    if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogErrors)
+                    if (BabaluConfigurationFactory.Instance.LogErrors)
                     {
                         logExceptionStream = LogStream(logExceptionStream, "babalu_rproxy_error", create, ref _lastErrorDate);
                         WriteLog(_exceptionLogQueue, logExceptionStream);
@@ -132,14 +132,14 @@ namespace Babalu.rProxy
                     _exceptionLogQueue.Clear();
                     // *********************************************************************************************
 
-                    if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogInformation)
+                    if (BabaluConfigurationFactory.Instance.LogInformation)
                     {
                         logInformationStream = LogStream(logInformationStream, "babalu_rproxy_info", create, ref _lastInfoDate);
                         WriteLog(_informationLogQueue, logInformationStream);
                     }
                     _informationLogQueue.Clear();
 
-                    if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogDebug)
+                    if (BabaluConfigurationFactory.Instance.LogDebug)
                     {
                         logDebugStream = LogStream(logDebugStream, "babalu_rproxy_debug", create, ref _lastDebugDate);
                         WriteLog(_debugLogQueue, logDebugStream);
@@ -157,7 +157,7 @@ namespace Babalu.rProxy
         {
             try
             {
-                if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.EnableEventLog)
+                if (BabaluConfigurationFactory.Instance.EnableEventLog)
                 {
                     string[] messages = _exceptionLogQueue.Copy();
                     foreach( string message in messages )
@@ -200,7 +200,7 @@ namespace Babalu.rProxy
         /// <param name="request">request specific information</param>
         void ILogger.LogRequest(string proxyIP, LogRequest request)
         {
-            if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogRequests)
+            if (BabaluConfigurationFactory.Instance.LogRequests)
             {
                 try
                 {
@@ -354,7 +354,7 @@ namespace Babalu.rProxy
         /// <param name="args">arguments to format in the message parameter</param>
         void ILogger.LogException(Exception excp, string message, params object[] args)
         {
-            if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogErrors)
+            if (BabaluConfigurationFactory.Instance.LogErrors)
             {
                 try
                 {
@@ -389,7 +389,7 @@ namespace Babalu.rProxy
         /// <param name="args">arguments to format in the message parameter</param>
         void ILogger.LogInformation(string message, params object[] args)
         {
-            if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogInformation)
+            if (BabaluConfigurationFactory.Instance.LogInformation)
                 LogGenetic(false, _informationLogQueue, message, args);
         }
 
@@ -400,7 +400,7 @@ namespace Babalu.rProxy
         /// <param name="args">arguments to format in the message parameter</param>
         void ILogger.LogDebug(string message, params object[] args)
         {
-            if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogDebug)
+            if (BabaluConfigurationFactory.Instance.LogDebug)
                 LogGenetic(true, _debugLogQueue, message, args);
         }
 

@@ -23,7 +23,7 @@ namespace Babalu.rProxy
         private static int ExceptionSleep = 15000;
         private static List<ProxyListener> _proxyListeners = new List<ProxyListener>();
 
-        private BabaluProxiedServerConfiguration _proxiedServer;
+        private BabaluProxiedServer _proxiedServer;
         private Thread _handler;
         private TcpListener _listener;
         private bool _close = false;
@@ -39,7 +39,7 @@ namespace Babalu.rProxy
         {
             if ( BabaluConfigurationFactory.Instance.ProxiedServers != null )
             {
-                foreach (BabaluProxiedServerConfiguration proxiedServer in BabaluConfigurationFactory.Instance.ProxiedServers)
+                foreach (BabaluProxiedServer proxiedServer in BabaluConfigurationFactory.Instance.ProxiedServers)
                 {
                     try
                     {
@@ -59,7 +59,7 @@ namespace Babalu.rProxy
         /// start any listeners that are configured
         /// </summary>
         /// <returns></returns>
-        private static void Start(BabaluProxiedServerConfiguration proxiedServer)
+        private static void Start(BabaluProxiedServer proxiedServer)
         {
             List<ProxyListener> listeners = new List<ProxyListener>();
             foreach (int port in proxiedServer.ProxyPorts.Keys)
@@ -118,7 +118,7 @@ namespace Babalu.rProxy
             return running;
         }
 
-        protected ProxyListener(BabaluProxiedServerConfiguration proxiedServer, int port )
+        protected ProxyListener(BabaluProxiedServer proxiedServer, int port )
         {
             _proxiedServer = proxiedServer;
             ProxyServerPort = port;
@@ -153,7 +153,7 @@ namespace Babalu.rProxy
             }
         }
 
-        protected BabaluProxiedServerConfiguration ProxiedServer
+        protected BabaluProxiedServer ProxiedServer
         {
             get { return _proxiedServer; }
         }

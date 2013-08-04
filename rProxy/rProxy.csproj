@@ -56,6 +56,7 @@
     <Compile Include="BabaluConfigurationFactory.cs" />
     <Compile Include="Common\BabaluWorkerThread.cs" />
     <Compile Include="Common\CompressedStream.cs" />
+    <Compile Include="Config\BabaluProxiedServer.cs" />
     <Compile Include="ExtensionConfig.cs" />
     <Compile Include="Interfaces\IBabaluConfig.cs" />
     <Compile Include="Interfaces\IBabaluExtension.cs" />
@@ -82,8 +83,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Common\Utility.cs" />
     <Compile Include="Config\BabaluConfiguration.cs" />
-    <Compile Include="Config\BabaluProxiedServerConfiguration.cs" />
-    <Compile Include="Config\BabaluServerConfiguration.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

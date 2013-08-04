@@ -47,13 +47,13 @@ namespace TestApplication
                 _maxQueueLengthCtrl.Value = server.MaxQueueLength;
             }
 
-            _logsLocationTxt.Text = ExtensionConfig.Config.BabaluServerConfiguration.LogsLocation;
-            _logDebugChk.Checked = ExtensionConfig.Config.BabaluServerConfiguration.LogDebug;
-            _logErrorsChk.Checked = ExtensionConfig.Config.BabaluServerConfiguration.LogErrors;
-            _logInformationChk.Checked = ExtensionConfig.Config.BabaluServerConfiguration.LogInformation;
-            _logRequestsChk.Checked = ExtensionConfig.Config.BabaluServerConfiguration.LogRequests;
-            _enablePerfmonChk.Checked = ExtensionConfig.Config.BabaluServerConfiguration.EnablePerfmon;
-            _eventLogChk.Checked = ExtensionConfig.Config.BabaluServerConfiguration.EnableEventLog;
+            _logsLocationTxt.Text = ExtensionConfig.Config.LogsLocation;
+            _logDebugChk.Checked = ExtensionConfig.Config.LogDebug;
+            _logErrorsChk.Checked = ExtensionConfig.Config.LogErrors;
+            _logInformationChk.Checked = ExtensionConfig.Config.LogInformation;
+            _logRequestsChk.Checked = ExtensionConfig.Config.LogRequests;
+            _enablePerfmonChk.Checked = ExtensionConfig.Config.EnablePerfmon;
+            _eventLogChk.Checked = ExtensionConfig.Config.EnableEventLog;
         }
 
         private void _startBtn_Click(object sender, EventArgs e)
@@ -62,7 +62,7 @@ namespace TestApplication
             {
                 try
                 {
-                    BabaluServerConfiguration babaluServerConfiguration = new BabaluServerConfiguration()
+                    BabaluConfiguration babaluServerConfiguration = new BabaluConfiguration()
                     {
                         LogsLocation = _logsLocationTxt.Text,
                         EnableEventLog = _eventLogChk.Checked,
@@ -74,7 +74,7 @@ namespace TestApplication
                     };
 
 
-                    BabaluProxiedServerConfiguration proxiedServer = new BabaluProxiedServerConfiguration()
+                    BabaluProxiedServer proxiedServer = new BabaluProxiedServer()
                     {
                         ProxyIP = _proxyIPTxt.Text,
                         SupportGZip = _supportsGzipChk.Checked,

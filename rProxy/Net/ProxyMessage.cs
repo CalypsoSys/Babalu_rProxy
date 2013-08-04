@@ -315,7 +315,7 @@ namespace Babalu.rProxy
                     string headerDebugString = Encoding.UTF8.GetString(_header.ToArray());
 
                     // if logging debug information log the raw header and raw/processed content
-                    if (BabaluConfigurationFactory.Instance.BabaluServerConfiguration.LogDebug)
+                    if (BabaluConfigurationFactory.Instance.LogDebug)
                     {
                         string contentDebugString = string.Empty;
                         if (_content.Count > 0)

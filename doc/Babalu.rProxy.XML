@@ -15,7 +15,7 @@
             </summary>
             <returns></returns>
         </member>
-        <member name="M:Babalu.rProxy.ProxyListener.Start(Babalu.rProxy.BabaluProxiedServerConfiguration)">
+        <member name="M:Babalu.rProxy.ProxyListener.Start(Babalu.rProxy.BabaluProxiedServer)">
             <summary>
             start any listeners that are configured
             </summary>
@@ -312,9 +312,49 @@
             Babalu server configuration and Proxied server settings
             </summary>
         </member>
-        <member name="P:Babalu.rProxy.BabaluConfiguration.BabaluServerConfiguration">
+        <member name="P:Babalu.rProxy.BabaluConfiguration.LogsLocation">
             <summary>
-            the Babalu servers configuration
+             Where to log 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.LogRequests">
+            <summary>
+             does the service log all requests (IIS like log) 
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.LogErrors">
+            <summary>
+            does the service log unexpected exceptions/errors
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.LogInformation">
+            <summary>
+            does the service log informational items
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.LogDebug">
+            <summary>
+            does the service log developer/debugging information
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.EnableEventLog">
+            <summary>
+            does the service log errors to the event log
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.EnablePerfmon">
+            <summary>
+            does the service log perfmon counter
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.BypassProcessing">
+            <summary>
+             Overrided all rule processing
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluConfiguration.ExternalData">
+            <summary>
+            a string extensions can set
             </summary>
         </member>
         <member name="P:Babalu.rProxy.BabaluConfiguration.ProxiedServers">
@@ -365,46 +405,6 @@
         <member name="P:Babalu.rProxy.BabaluWorkerThread.ThreadName">
             <summary>
             the name of this thread
-            </summary>
-        </member>
-        <member name="T:Babalu.rProxy.BabaluProxiedServerConfiguration">
-            <summary>
-            Babalu rProxy set configuration Proxied server settings
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ProxyIP">
-            <summary>
-            the local network address that the tcp listener should use to listen on
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ProxyPorts">
-            <summary>
-            dictionary of ports and cert names supported
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.SupportGZip">
-            <summary>
-            does the service allow HTTP content to be compressed with gzip (content type)
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.CacheContent">
-            <summary>
-            does the service allow for the caching of server content so we do not have to call the proxied server on all requests
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.MaxQueueLength">
-            <summary>
-            the The maximum requested length of the pending connections queue.
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ProxiedServers">
-            <summary>
-            the The maximum requested length of the pending connections queue.
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluProxiedServerConfiguration.ServerType">
-            <summary>
-            
             </summary>
         </member>
         <member name="T:Babalu.rProxy.PerformanceCounterInstaller">
@@ -946,56 +946,6 @@
             
             </summary>
         </member>
-        <member name="T:Babalu.rProxy.BabaluServerConfiguration">
-            <summary>
-            Babalu rProxy set configuration settings
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogsLocation">
-            <summary>
-             Where to log 
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogRequests">
-            <summary>
-             does the service log all requests (IIS like log) 
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogErrors">
-            <summary>
-            does the service log unexpected exceptions/errors
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogInformation">
-            <summary>
-            does the service log informational items
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.LogDebug">
-            <summary>
-            does the service log developer/debugging information
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.EnableEventLog">
-            <summary>
-            does the service log errors to the event log
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.EnablePerfmon">
-            <summary>
-            does the service log perfmon counter
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.BypassProcessing">
-            <summary>
-             Overrided all rule processing
-            </summary>
-        </member>
-        <member name="P:Babalu.rProxy.BabaluServerConfiguration.ExternalData">
-            <summary>
-            a string extensions can set
-            </summary>
-        </member>
         <member name="T:Babalu.rProxy.BabaluCounterDescriptions">
             <summary>
             Babalu performance counter descriptions
@@ -1117,7 +1067,7 @@
             specific class to handle HTTPS requests
             </summary>
         </member>
-        <member name="M:Babalu.rProxy.HttpsProxyListener.#ctor(Babalu.rProxy.BabaluProxiedServerConfiguration,System.Int32,System.String)">
+        <member name="M:Babalu.rProxy.HttpsProxyListener.#ctor(Babalu.rProxy.BabaluProxiedServer,System.Int32,System.String)">
             <summary>
             load the certicicate defined in the configuration file
             </summary>
@@ -1214,6 +1164,46 @@
         <member name="M:Babalu.rProxy.BabaluConfigurationFactory.LoadLogsLocation">
             <summary>
             get the location to write log files
+            </summary>
+        </member>
+        <member name="T:Babalu.rProxy.BabaluProxiedServer">
+            <summary>
+            Babalu rProxy set configuration Proxied server settings
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServer.ProxyIP">
+            <summary>
+            the local network address that the tcp listener should use to listen on
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServer.ProxyPorts">
+            <summary>
+            dictionary of ports and cert names supported
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServer.SupportGZip">
+            <summary>
+            does the service allow HTTP content to be compressed with gzip (content type)
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServer.CacheContent">
+            <summary>
+            does the service allow for the caching of server content so we do not have to call the proxied server on all requests
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServer.MaxQueueLength">
+            <summary>
+            the The maximum requested length of the pending connections queue.
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServer.ProxiedServers">
+            <summary>
+            the The maximum requested length of the pending connections queue.
+            </summary>
+        </member>
+        <member name="P:Babalu.rProxy.BabaluProxiedServer.ServerType">
+            <summary>
+            
             </summary>
         </member>
     </members>
