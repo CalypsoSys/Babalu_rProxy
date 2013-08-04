@@ -14,7 +14,6 @@ namespace TestApplication
 {
     public partial class Form1 : Form
     {
-        private string _originalIp = string.Empty;
         private bool _started = false;
         public Form1()
         {
@@ -26,7 +25,6 @@ namespace TestApplication
             var server = ExtensionConfig.Config.ProxiedServers.FirstOrDefault();
             if ( server != null )
             {
-                _originalIp = server.ProxyIP;
                 _proxyIPTxt.Text = server.ProxyIP;
                 StringBuilder proxyPorts = new StringBuilder();
                 foreach(int port in server.ProxyPorts.Keys)
@@ -78,6 +76,8 @@ namespace TestApplication
                     babaluServerConfiguration.ProxiedServers.Add( new BabaluProxiedServer()
                             {
                                 ProxyIP = _proxyIPTxt.Text,
+                                ProxyPorts = LoadProxyPorts(_proxyPortsTxt.Text),
+                                ProxiedServers = LoadProxiedServers(_proxiedServerTxt.Text),
                                 SupportGZip = _supportsGzipChk.Checked,
                                 CacheContent = _cacheContentChk.Checked,
                                 MaxQueueLength = Convert.ToInt32(_maxQueueLengthCtrl.Value)
@@ -107,6 +107,60 @@ namespace TestApplication
                 StopBabalu();
             }
         }
+
+        private Dictionary<int, string> LoadProxyPorts(string proxyPorts)
+        {
+            Dictionary<int, string> portCerts = new Dictionary<int, string>();
+            if (string.IsNullOrWhiteSpace(proxyPorts) == false)
+            {
+                string[] portCertEntries = proxyPorts.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string portCert in portCertEntries)
+                {
+                    string[] tokens = portCert.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (tokens.Count() > 0)
+                    {
+                        int port;
+                        if (int.TryParse(tokens[0], out port))
+                        {
+                            string cert = null;
+                            if (tokens.Count() > 1 && string.IsNullOrWhiteSpace(tokens[1]) == false)
+                                cert = tokens[1];
+                            portCerts.Add(port, cert);
+                        }
+                    }
+                }
+            }
+
+            return portCerts;
+        }
+
+        private static Dictionary<string, Tuple<string, int, bool>> LoadProxiedServers(string proxiedServersPorts)
+        {
+            Dictionary<string, Tuple<string, int, bool>> servers = new Dictionary<string, Tuple<string, int, bool>>();
+
+            if (string.IsNullOrWhiteSpace(proxiedServersPorts) == false)
+            {
+                string[] serverPortMaps = proxiedServersPorts.Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries);
+                foreach (string serverPortMap in serverPortMaps)
+                {
+                    string[] tokens = serverPortMap.Split(new char[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (tokens.Count() == 4 && string.IsNullOrWhiteSpace(tokens[0]) == false && string.IsNullOrWhiteSpace(tokens[1]) == false)
+                    {
+                        int port;
+                        if (int.TryParse(tokens[2], out port) == false)
+                            port = 80;
+                        bool ssl;
+                        if (bool.TryParse(tokens[3], out ssl) == false)
+                            ssl = false;
+
+                        servers.Add(tokens[0].ToLower(), Tuple.Create<string, int, bool>(tokens[1], port, ssl));
+                    }
+                }
+            }
+
+            return servers;
+        }
+
 
         private void Form1_FormClosed(object sender, FormClosedEventArgs e)
         {
