@@ -925,6 +925,12 @@
             </summary>
             <returns>returns false if no other processing is required</returns>
         </member>
+        <member name="M:Babalu.rProxy.ExtensionConfig.SetConfiguration(Babalu.rProxy.BabaluConfiguration)">
+            <summary>
+            set this as the configuration
+            </summary>
+            <param name="config"></param>
+        </member>
         <member name="M:Babalu.rProxy.ExtensionConfig.StartBabalu(Babalu.rProxy.IBabaluExtension)">
             <summary>
             

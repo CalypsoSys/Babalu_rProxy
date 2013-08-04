@@ -25,6 +25,15 @@ namespace Babalu.rProxy
         }
 
         /// <summary>
+        /// set this as the configuration
+        /// </summary>
+        /// <param name="config"></param>
+        public static void SetConfiguration(BabaluConfiguration config)
+        {
+            BabaluConfigurationFactory.SetConfiguration(config);
+        }
+
+        /// <summary>
         /// 
         /// </summary>
         /// <param name="extension"></param>

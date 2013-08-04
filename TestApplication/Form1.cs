@@ -70,21 +70,25 @@ namespace TestApplication
                         LogDebug = _logDebugChk.Checked,
                         LogErrors = _logErrorsChk.Checked,
                         LogInformation = _logInformationChk.Checked,
-                        LogRequests = _logRequestsChk.Checked
+                        LogRequests = _logRequestsChk.Checked,
+                        ProxiedServers = new List<BabaluProxiedServer>()
                     };
 
 
-                    BabaluProxiedServer proxiedServer = new BabaluProxiedServer()
-                    {
-                        ProxyIP = _proxyIPTxt.Text,
-                        SupportGZip = _supportsGzipChk.Checked,
-                        CacheContent = _cacheContentChk.Checked,
-                        MaxQueueLength = Convert.ToInt32(_maxQueueLengthCtrl.Value)
-                    };
+                    babaluServerConfiguration.ProxiedServers.Add( new BabaluProxiedServer()
+                            {
+                                ProxyIP = _proxyIPTxt.Text,
+                                SupportGZip = _supportsGzipChk.Checked,
+                                CacheContent = _cacheContentChk.Checked,
+                                MaxQueueLength = Convert.ToInt32(_maxQueueLengthCtrl.Value)
+                            }
+                    );
+
+                    ExtensionConfig.SetConfiguration(babaluServerConfiguration);
                 }
                 catch (Exception excp)
                 {
-                    MessageBox.Show(this, excp.Message, "Exception Saving config");
+                    MessageBox.Show(this, excp.Message, "Exception setting config");
                 }
 
                 try

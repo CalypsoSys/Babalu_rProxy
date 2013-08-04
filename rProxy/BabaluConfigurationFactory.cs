@@ -68,7 +68,7 @@ namespace Babalu.rProxy
             }
         }
 
-        private static void SetConfiguration(BabaluConfiguration config)
+        public static void SetConfiguration(BabaluConfiguration config)
         {
             _configLock.EnterWriteLock();
             try
